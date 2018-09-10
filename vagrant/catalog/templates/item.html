@@ -5,6 +5,7 @@
     <title></title>
   </head>
   <body>
+    <a href="{{url_for('createNewItem', category_id=category.id)}}">Create New Item</a>
     <h1>{{category.name}}</h1>
 
     {% for i in items %}
