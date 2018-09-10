@@ -13,7 +13,7 @@
     <br>
     {{ i.description }}
     <br>
-    <a href="{{url_for('editItem', category_id=category.id, item_id=i.id)}}">Edit</a>
+    <a href="{{url_for('editCategoryItem', category_id=category.id, item_id=i.id)}}">Edit</a>
     <br>
     <a href="{{url_for('deleteItem', category_id=category.id, item_id=i.id)}}">Delete</a>
     <br>
