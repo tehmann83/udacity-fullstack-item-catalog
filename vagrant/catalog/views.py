@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask import flash
+from flask import flash, jsonify
 from sqlalchemy import create_engine
 from database_setup import Base, Category, Item
 from sqlalchemy.orm import sessionmaker
@@ -13,6 +13,20 @@ session = DBSession()
 
 
 app = Flask(__name__)
+
+
+# Creating API Endpoints
+@app.route('/categories/<int:category_id>/JSON')
+def categoryItemJSON(category_id):
+    category = session.query(Category).filter_by(id=category_id).one()
+    items = session.query(Item).filter_by(category_id=category_id).all()
+    return jsonify(Items=[i.serialize for i in items])
+
+
+@app.route('/categories/<int:category_id>/<int:item_id>/JSON')
+def itemJSON(category_id, item_id):
+    item = session.query(Item).filter_by(id=item_id).one()
+    return jsonify(Item=[item.serialize])
 
 
 @app.route('/')
