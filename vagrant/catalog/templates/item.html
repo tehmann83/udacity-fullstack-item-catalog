@@ -6,29 +6,36 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
   </head>
   <body>
-    <a href="{{url_for('createCategoryItem', category_id=category.id)}}">Create New Item</a>
-    <h1>{{category.name}}</h1>
+    <div class="pane">
+      <div class="header">
+        <h1>{{category.name}}</h1>
+      </div>    
+      <a href="{{url_for('createCategoryItem', category_id=category.id)}}">Create New Item</a>
+      <div class="flash">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <ul>
+            {% for message in messages %}
+            <li><strong> {{ messages }}</strong></li>
+            {% endfor %}
+          </ul>
+          {% endif%}
+        {% endwith %}
+      </div>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      <ul>
-        {% for message in messages %}
-        <li><strong> {{ messages }}</strong></li>
-        {% endfor %}
-      </ul>
-      {% endif%}
-    {% endwith %}
 
-    {% for i in items %}
-    {{ i.name }}
-    <br>
-    {{ i.description }}
-    <br>
-    <a href="{{url_for('editCategoryItem', category_id=category.id, item_id=i.id)}}">Edit</a>
-    <br>
-    <a href="{{url_for('deleteCategoryItem', category_id=category.id, item_id=i.id)}}">Delete</a>
-    <br>
-    {% endfor %}
-
+      {% for i in items %}
+      <div class="">
+        <span class="name">{{ i.name }}</span>
+      </div>
+      <div class="description">
+        <p>{{ i.description }}</p>
+      </div>
+      <div class="editdeletepane">
+        <a href="{{url_for('editCategoryItem', category_id=category.id, item_id=i.id)}}">Edit</a>
+        <a href="{{url_for('deleteCategoryItem', category_id=category.id, item_id=i.id)}}">Delete</a>
+      </div>
+      {% endfor %}
+    </div>
   </body>
 </html>

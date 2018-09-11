@@ -6,11 +6,16 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
   </head>
   <body>
+    <h1>Edit Item</h1>
     <form class="" action="{{ url_for('editCategoryItem', category_id=category_id, item_id=item_id)}}" method="post">
-      <p>Name:</p>
-      <input type="text" size="30" name="name" placeholder="{{item.name}}" autofocus>
+      <dl class="">
+        <dt>Name:</dt>
+        <dd><input type="text" size="30" name="name" placeholder="{{item.name}}" autofocus></dd>
+        <dt>Description:</dt>
+        <dd><textarea name='description' rows='5' cols='40' placeholder="{{item.description}}"></textarea></dd>
+      </dl>
       <input type="submit" name="" value="Edit">
+      <a href="{{url_for('showCategory', category_id=category_id)}}">Cancel</a>
     </form>
-    <a href="{{url_for('showCategory', category_id=category_id)}}">Cancel</a>
   </body>
 </html>

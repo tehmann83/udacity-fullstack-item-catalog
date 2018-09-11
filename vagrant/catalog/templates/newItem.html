@@ -6,12 +6,15 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
   </head>
   <body>
-    <h1>New Item</h1>
-    <form class="" action="{{ url_for('createCategoryItem', category_id=category_id)}}" method="post">
-      <p>Name:</p>
-      <input type="text" size="30" name="name" autofocus>
-      <input type="submit" value="Create">
-    </form>
-
+    <div class="pane">
+      <h1>New Item</h1>
+      <form class="" action="{{ url_for('createCategoryItem', category_id=category_id)}}" method="post">
+        <dl class="">
+          <dt>Name:</dt>
+          <dd><input type="text" size="30" name="name" autofocus></dd>
+        </dl>
+        <input type="submit" value="Create">
+      </form>
+    </div>
   </body>
 </html>
