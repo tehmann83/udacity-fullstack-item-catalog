@@ -53,18 +53,18 @@ a {
 }
 
 .name {
-    width: 50%;
     display: inline-block;
     float: left;
-}
-
-.description {}
-
-.price {
-    text-align: right;
+    padding: 16px 0 16px 0;
     width: 50%;
-    float: right;
 }
+
+.description {
+  text-align: right;
+  /* float: right; */
+}
+
+
 
 .editdeletepane {}
 
