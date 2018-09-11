@@ -7,7 +7,7 @@
   <body>
     <form class="" action="{{ url_for('editCategoryItem', category_id=category_id, item_id=item_id)}}" method="post">
       <p>Name:</p>
-      <input type="text" size="30" name="name" placeholder="{{item.name}}">
+      <input type="text" size="30" name="name" placeholder="{{item.name}}" autofocus>
       <input type="submit" name="" value="Edit">
     </form>
     <a href="{{url_for('showCategory', category_id=category_id)}}">Cancel</a>
