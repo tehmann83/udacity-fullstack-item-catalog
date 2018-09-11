@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask import flash
 from sqlalchemy import create_engine
 from database_setup import Base, Category, Item
 from sqlalchemy.orm import sessionmaker
@@ -23,11 +24,12 @@ def showCategory(category_id):
 
 
 @app.route('/categories/<int:category_id>/new/', methods=['GET', 'POST'])
-def createNewItem(category_id):
+def createCategoryItem(category_id):
     if request.method == 'POST':
         newItem = Item(name=request.form['name'], category_id=category_id)
         session.add(newItem)
         session.commit()
+        flash('New Item Created')
         return redirect(url_for('showCategory', category_id=category_id))
     else:
         return render_template('newItem.html', category_id=category_id)
@@ -36,11 +38,13 @@ def createNewItem(category_id):
 @app.route('/categories/<int:category_id>/<int:item_id>/edit/', methods=['GET', 'POST'])
 def editCategoryItem(category_id, item_id):
     editedItem = session.query(Item).filter_by(id=item_id).one()
+    itemName = editedItem.name
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
         session.add(editedItem)
         session.commit()
+        flash('%s Successfully Edited' % itemName)
         return redirect(url_for('showCategory', category_id=category_id))
     else:
         return render_template('editItem.html', category_id=category_id, item_id=item_id, item=editedItem)
@@ -49,14 +53,17 @@ def editCategoryItem(category_id, item_id):
 @app.route('/categories/<int:category_id>/<int:item_id>/delete/', methods=['GET', 'POST'])
 def deleteCategoryItem(category_id, item_id):
     itemToDelete = session.query(Item).filter_by(id=item_id).one()
+    itemName = itemToDelete.name
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
+        flash('%s Successfully Deleted' % itemName)
         return redirect(url_for('showCategory', category_id=category_id))
     else:
         return render_template('deleteItem.html', category_id=category_id, item_id=item_id, item=itemToDelete)
 
 
 if __name__ == '__main__':
+    app.secret_key = 'DZwvMguwMraRm10Mwk'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)

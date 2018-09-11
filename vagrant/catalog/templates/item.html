@@ -5,8 +5,18 @@
     <title></title>
   </head>
   <body>
-    <a href="{{url_for('createNewItem', category_id=category.id)}}">Create New Item</a>
+    <a href="{{url_for('createCategoryItem', category_id=category.id)}}">Create New Item</a>
     <h1>{{category.name}}</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li><strong> {{ messages }}</strong></li>
+        {% endfor %}
+      </ul>
+      {% endif%}
+    {% endwith %}
 
     {% for i in items %}
     {{ i.name }}
