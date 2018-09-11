@@ -15,7 +15,7 @@
     <br>
     <a href="{{url_for('editCategoryItem', category_id=category.id, item_id=i.id)}}">Edit</a>
     <br>
-    <a href="{{url_for('deleteItem', category_id=category.id, item_id=i.id)}}">Delete</a>
+    <a href="{{url_for('deleteCategoryItem', category_id=category.id, item_id=i.id)}}">Delete</a>
     <br>
     {% endfor %}
 
