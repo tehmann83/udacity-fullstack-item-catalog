@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
+  </head>
+  <body>
+    <h1>Edit Category</h1>
+    <form class="" action="{{url_for('editCategory', category_id=category.id)}}" method="post">
+      <p>Name:</p>
+      <input type="text" size="30" name="name" placeholder="{{category.name}}">
+      <input type="submit" name="" value="Edit">
+      <a href = '{{url_for('showAllCategories')}}'> Cancel </a>
+    </form>
+  </body>
+</html>

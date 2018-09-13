@@ -9,7 +9,8 @@
     <div class="pane">
       <div class="header">
         <h1>{{category.name}}</h1>
-      </div>    
+      </div>
+      <a href="{{url_for('showAllCategories')}}">All Categories</a>
       <a href="{{url_for('createCategoryItem', category_id=category.id)}}">Create New Item</a>
       <div class="flash">
         {% with messages = get_flashed_messages() %}
