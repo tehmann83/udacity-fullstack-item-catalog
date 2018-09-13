@@ -21,9 +21,14 @@
         {% endwith %}
       </div>
       {% for category in categories %}
-      <a href="{{url_for('showCategory', category_id=category.id)}}"><p>{{category.name}}</p></a>
-      <p><a href = "{{url_for('editCategory',category_id=category.id)}}">Edit Category</a></p>
-      <p> <a href = "{{url_for('deleteCategory',category_id=category.id)}}">Delete Category</a></p>
+      <div class="item-card">
+        <a href="{{url_for('showCategory', category_id=category.id)}}"><p class="name-category">{{category.name}}</p></a>
+        <p class="edit-delete-links">
+          <a href = "{{url_for('editCategory',category_id=category.id)}}">Edit</a>
+          <a href = "{{url_for('deleteCategory',category_id=category.id)}}">Delete</a>
+        </p>
+      </div>
+
       {% endfor %}
     </div>
   </body>

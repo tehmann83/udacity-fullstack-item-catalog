@@ -26,16 +26,25 @@
 
 
       {% for i in items %}
-      <div class="">
-        <span class="name">{{ i.name }}</span>
+      <div class="item-card">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="name">{{ i.name }}</span>
+          </div>
+          <div class="col-md-8">
+            <p class="description">{{ i.description }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="editdeletepane">
+            <a href="{{url_for('editCategoryItem', category_id=category.id, item_id=i.id)}}">Edit</a>
+            <a href="{{url_for('deleteCategoryItem', category_id=category.id, item_id=i.id)}}">Delete</a>
+          </div>
+        </div>
+
       </div>
-      <div class="description">
-        <p>{{ i.description }}</p>
-      </div>
-      <div class="editdeletepane">
-        <a href="{{url_for('editCategoryItem', category_id=category.id, item_id=i.id)}}">Edit</a>
-        <a href="{{url_for('deleteCategoryItem', category_id=category.id, item_id=i.id)}}">Delete</a>
-      </div>
+
+
       {% endfor %}
     </div>
   </body>

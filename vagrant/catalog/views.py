@@ -75,6 +75,7 @@ def deleteCategory(category_id):
     if request.method == 'POST':
         session.delete(categoryToDelete)
         session.commit()
+        flash('Category Deleted')
         return redirect(url_for('showAllCategories'))
     else:
         return render_template('deleteCategory.html', category=categoryToDelete)
