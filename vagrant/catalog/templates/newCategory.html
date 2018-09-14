@@ -7,6 +7,11 @@
   </head>
   <body>
     <h1>New Category</h1>
+    {% if 'username' not in session %}
+    <a href="{{url_for('showLogin')}}">Login</a>
+    {% else %}
+    <a href="{{url_for('gdisconnect')}}">Logout</a>
+    {% endif %}
     <form class="" action="" method="post">
       <p>Name:</p>
       <input type="text" size="30" name="name" value="">

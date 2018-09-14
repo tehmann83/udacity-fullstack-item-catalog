@@ -7,20 +7,19 @@
   </head>
   <body>
     <div class="pane">
-      <div class="header row">
-        <h1>{{category.name}}</h1>
-        <figure class="creator">
-          <img src="{{creator.picture}}" alt="Image of creator">
-          <figcaption>{{creator.name}}</figcaption>
-        </figure>
+      <div class="header">
+        <h1 class="">{{category.name}}</h1>
+        {% if 'username' not in session %}
+        <a href="{{url_for('showLogin')}}">Login</a>
+        {% else %}
+        <a href="{{url_for('gdisconnect')}}">Logout</a>
+        {% endif %}
       </div>
-      {% if 'username' not in session %}
-      <a href="{{url_for('showLogin')}}">Login</a>
-      {% else %}
-      <a href="{{url_for('gdisconnect')}}">Logout</a>
-      {% endif %}
       <a href="{{url_for('showAllCategories')}}">All Categories</a>
-      <a href="{{url_for('createCategoryItem', category_id=category.id)}}">Create New Item</a>
+      <figure class="creator">
+        <img src="{{creator.picture}}" alt="Image of creator">
+        <figcaption>{{creator.name}}</figcaption>
+      </figure>
       <div class="flash">
         {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -44,13 +43,6 @@
             <p class="description">{{ i.description }}</p>
           </div>
         </div>
-        <div class="row">
-          <div class="editdeletepane">
-            <a href="{{url_for('editCategoryItem', category_id=category.id, item_id=i.id)}}">Edit</a>
-            <a href="{{url_for('deleteCategoryItem', category_id=category.id, item_id=i.id)}}">Delete</a>
-          </div>
-        </div>
-
       </div>
 
 

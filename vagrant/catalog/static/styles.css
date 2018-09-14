@@ -57,18 +57,18 @@ li {
   box-shadow: 0px 0px 40px 3px rgba(70,70,70,1);
   border: 1px solid #111;
   border-radius: 10px;
-  margin: 8px;
+  margin: 48px 8px 8px 8px;
   padding: 0 8px 0 8px;
 }
 
 .header {
     left: 50%;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .name-category {
   font-size: 16px;
-  margin-top: 5%;
+  margin-top: 3%;
 }
 
 .name {
@@ -99,4 +99,8 @@ li {
 
 .delete-form {
   margin-top: 32px;
+}
+
+.creator {
+  float: right;
 }

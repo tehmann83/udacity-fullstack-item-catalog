@@ -8,12 +8,7 @@
   <body>
     <div class="pane">
       <h1>Catalog</h1>
-      <a href="{{url_for('createCategory')}}"><h3>Create New Category</h3></a>
-      {% if 'username' not in session %}
-      <a href="{{url_for('showLogin')}}">Login</a>
-      {% else %}
-      <a href="{{url_for('gdisconnect')}}">Logout</a>
-      {% endif %}
+      <a href="{{url_for('showLogin')}}" class="">Login</a>
       <div class="flash">
         {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -28,10 +23,6 @@
       {% for category in categories %}
       <div class="item-card">
         <a href="{{url_for('showCategory', category_id=category.id)}}"><p class="name-category">{{category.name}}</p></a>
-        <p class="edit-delete-links">
-          <a href = "{{url_for('editCategory',category_id=category.id)}}">Edit</a>
-          <a href = "{{url_for('deleteCategory',category_id=category.id)}}">Delete</a>
-        </p>
       </div>
 
       {% endfor %}

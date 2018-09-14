@@ -7,6 +7,11 @@
   </head>
   <body>
     <h1>Edit Item</h1>
+    {% if 'username' not in session %}
+    <a href="{{url_for('showLogin')}}">Login</a>
+    {% else %}
+    <a href="{{url_for('gdisconnect')}}">Logout</a>
+    {% endif %}
     <form class="" action="{{ url_for('editCategoryItem', category_id=category_id, item_id=item_id)}}" method="post">
       <dl class="">
         <dt>Name:</dt>
