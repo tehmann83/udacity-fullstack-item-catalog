@@ -26,11 +26,11 @@ $ vagrant ssh
 6. Cd into /vagrant
 7. Initialize database
 ```bash
-$ python models.py
+$ python database_setup.py
 ```
 8. Populate database with some initial data
 ```bash
-$ python dummy_database.py
+$ python dummy_db.py
 ```
 9. Launch application
 ```bash
