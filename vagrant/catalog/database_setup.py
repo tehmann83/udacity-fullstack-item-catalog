@@ -16,13 +16,6 @@ class User(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
-    # password_hash = Column(String(64))
-    #
-    # def hash_password(self, password):
-    #     self.password_hash = pwd_context.encrypt(password)
-    #
-    # def verify_password(self, password):
-    #     return pwd_context.verify(password, self.password_hash)
 
 
 class Category(Base):

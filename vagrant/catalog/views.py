@@ -30,23 +30,14 @@ session = DBSession()
 
 app = Flask(__name__)
 
+# Load google signin API client id
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 
 
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'username' in login_session:
-            return f(*args, **kwargs)
-        else:
-            flash('You are not allowed to access.')
-            return redirect('/login')
-    return decorated_function
-
-
 @app.route('/login')
 def showLogin():
+    '''Route to login page'''
     state = ''.join(
         random.choice(string.ascii_uppercase + string.digits)
         for x in xrange(32))
@@ -56,6 +47,7 @@ def showLogin():
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    '''Connect to google account'''
     # Validate state token
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -156,6 +148,9 @@ def gconnect():
 
 
 def createUser(login_session):
+    '''Creates a user
+       Args: login_session
+       Returns: user_id'''
     newUser = User(
         name=login_session['username'],
         email=login_session['email'],
@@ -167,11 +162,15 @@ def createUser(login_session):
 
 
 def getUserInfo(user_id):
+    '''Returns user object
+       Args: user_id'''
     user = session.query(User).filter_by(id=user_id).one()
     return user
 
 
 def getUserID(email):
+    '''Returns user ID
+       Args: email from user login_session'''
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
@@ -181,6 +180,7 @@ def getUserID(email):
 
 @app.route('/gdisconnect')
 def gdisconnect():
+    '''Disconnects user'''
     # Only disconnect a connected user.
     access_token = login_session.get('access_token')
     if access_token is None:
@@ -218,12 +218,15 @@ def gdisconnect():
 # Creating API Endpoints
 @app.route('/categories/JSON')
 def catalogJSON():
+    '''Returns all categories with their items as JSON'''
     categories = session.query(Category).all()
     return jsonify(Catalog=[i.serialize for i in categories])
 
 
 @app.route('/categories/<int:category_id>/JSON')
 def categoryItemJSON(category_id):
+    '''Returns a categories items as JSON
+       Args: id of category'''
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(Item).filter_by(category_id=category_id).all()
     return jsonify(Items=[i.serialize for i in items])
@@ -231,6 +234,8 @@ def categoryItemJSON(category_id):
 
 @app.route('/categories/<int:category_id>/<int:item_id>/JSON')
 def itemJSON(category_id, item_id):
+    '''Returns an item as JSON
+       Args: IDs of category and item'''
     item = session.query(Item).filter_by(id=item_id).one()
     return jsonify(Item=[item.serialize])
 
@@ -238,6 +243,7 @@ def itemJSON(category_id, item_id):
 @app.route('/')
 @app.route('/categories/')
 def showAllCategories():
+    '''Route to page where all categories are listed'''
     categories = session.query(Category).order_by(asc(Category.name))  # .all()
     if 'username' not in login_session:
         return render_template('publicCategories.html', categories=categories)
@@ -246,10 +252,10 @@ def showAllCategories():
 
 
 @app.route('/categories/new/', methods=['GET', 'POST'])
-@login_required
 def createCategory():
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    '''Route to page where new categories may be created'''
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         newCategory = Category(
             name=request.form['name'], user_id=login_session['user_id'])
@@ -262,10 +268,11 @@ def createCategory():
 
 
 @app.route('/categories/<int:category_id>/edit/', methods=['GET', 'POST'])
-@login_required
 def editCategory(category_id):
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    '''Route to page where categories may be edited
+       Args: ID of category'''
+    if 'username' not in login_session:
+        return redirect('/login')
     editedCategory = session.query(Category).filter_by(id=category_id).one()
     if editedCategory.user_id != login_session['user_id']:
         return "\
@@ -285,10 +292,11 @@ def editCategory(category_id):
 
 
 @app.route('/categories/<int:category_id>/delete/', methods=['GET', 'POST'])
-@login_required
 def deleteCategory(category_id):
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    '''Route to page where categories may be deleted
+       Args: ID of category'''
+    if 'username' not in login_session:
+        return redirect('/login')
     categoryToDelete = session.query(Category).filter_by(id=category_id).one()
     if categoryToDelete.user_id != login_session['user_id']:
         return "\
@@ -309,6 +317,8 @@ def deleteCategory(category_id):
 @app.route('/categories/<int:category_id>/')
 @app.route('/categories/<int:category_id>/items/')
 def showCategory(category_id):
+    '''Route to page where a category's items are listed
+       Args: ID of category'''
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(Item).filter_by(category_id=category.id)
     creator = getUserInfo(category.user_id)
@@ -321,10 +331,11 @@ def showCategory(category_id):
 
 
 @app.route('/categories/<int:category_id>/items/new/', methods=['GET', 'POST'])
-@login_required
 def createCategoryItem(category_id):
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    '''Route to page where items may be created
+       Args: ID of category'''
+    if 'username' not in login_session:
+        return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
     if category.user_id != login_session['user_id']:
         return "\
@@ -349,10 +360,11 @@ def createCategoryItem(category_id):
 @app.route(
     '/categories/<int:category_id>/items/<int:item_id>/edit/',
     methods=['GET', 'POST'])
-@login_required
 def editCategoryItem(category_id, item_id):
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    '''Route to page where categories may be edited
+       Args: ID of category and item'''
+    if 'username' not in login_session:
+        return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
     editedItem = session.query(Item).filter_by(id=item_id).one()
     itemName = editedItem.name
@@ -382,10 +394,11 @@ def editCategoryItem(category_id, item_id):
 @app.route(
     '/categories/<int:category_id>/items/<int:item_id>/delete/',
     methods=['GET', 'POST'])
-@login_required
 def deleteCategoryItem(category_id, item_id):
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    '''Route to page where categories may be deleted
+       Args: ID of category and item'''
+    if 'username' not in login_session:
+        return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
     itemToDelete = session.query(Item).filter_by(id=item_id).one()
     itemName = itemToDelete.name
