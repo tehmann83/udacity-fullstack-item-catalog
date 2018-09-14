@@ -104,3 +104,11 @@ li {
 .creator {
   float: right;
 }
+
+.creator-image {
+  width: 300px;
+  height: 300px;
+  border-radius: 150px;
+  -webkit-border-radius: 150px;
+  -moz-border-radius: 150px;"
+}
