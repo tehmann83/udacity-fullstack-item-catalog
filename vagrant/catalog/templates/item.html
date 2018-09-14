@@ -14,6 +14,7 @@
           <figcaption>{{creator.name}}</figcaption>
         </figure>
       </div>
+      
       {% if 'username' not in session %}
       <a href="{{url_for('showLogin')}}">Login</a>
       {% else %}

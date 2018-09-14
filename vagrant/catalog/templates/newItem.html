@@ -13,6 +13,7 @@
       {% else %}
       <a href="{{url_for('gdisconnect')}}">Logout</a>
       {% endif %}
+
       <form class="" action="{{ url_for('createCategoryItem', category_id=category_id)}}" method="post">
         <dl class="">
           <dt>Name:</dt>
@@ -22,6 +23,7 @@
         </dl>
         <input type="submit" value="Create">
       </form>
+      
     </div>
   </body>
 </html>

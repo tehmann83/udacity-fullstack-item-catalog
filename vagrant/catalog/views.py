@@ -150,7 +150,7 @@ def gconnect():
 def createUser(login_session):
     '''Creates a user
        Args: login_session
-       Returns: user_id'''
+       Returns: id of user'''
     newUser = User(
         name=login_session['username'],
         email=login_session['email'],
